@@ -1,0 +1,21 @@
+# Ignore objects and archives, anywhere in the tree.
+*.[oa]
+*.so
+
+# Ignore Cmake files
+*CMake*
+*cmake*
+
+# Track CMakeLists.txt
+!CMakeLists.txt
+
+# Ignore makefile
+Makefile
+
+# Ignore eclipse files
+.settings/*
+.cproject
+.project
+
+# Ignore build directory
+build/*
