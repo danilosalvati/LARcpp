@@ -19,6 +19,8 @@ class LARcpp {
 public:
 	Eigen::SparseMatrix<int, Eigen::RowMajor, int> brcToMatrix(
 			std::deque<std::vector<int> > brcList);
+	std::deque<std::vector<int> > matrixToBrc(
+			Eigen::SparseMatrix<int, Eigen::RowMajor, int> matrix);
 };
 
 }
