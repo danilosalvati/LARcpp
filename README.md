@@ -9,6 +9,8 @@ For compilation cmake (https://cmake.org/) is required
 To import this project into eclipse open a cmd prompt into the project directory and type:
 
     cmake -G "Eclipse CDT4 - Unix Makefiles" ./
+    
+Then open Eclipse and import the project as a makefile project
 
 ### Compilation and installation
 
