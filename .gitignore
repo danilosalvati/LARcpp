@@ -12,6 +12,9 @@
 # Ignore makefile
 Makefile
 
+# Ignore test application
+testLAR
+
 # Ignore eclipse files
 .settings/*
 .cproject
