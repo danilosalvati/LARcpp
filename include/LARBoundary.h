@@ -26,8 +26,11 @@ private:
 	// Filter for the convexUnsignedBoundary function
 	Eigen::SparseMatrix<int, Eigen::RowMajor, int> boundaryFilter(
 			Eigen::SparseMatrix<int, Eigen::RowMajor, int> FC);
-};
 
+	int maxRowValue(Eigen::SparseMatrix<int, Eigen::RowMajor, int> matrix,
+			int row);
+
+};
 }
 
 #endif /* INCLUDE_LARBOUNDARY_H_ */

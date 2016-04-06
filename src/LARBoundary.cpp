@@ -18,6 +18,7 @@ Eigen::SparseMatrix<int, Eigen::RowMajor, int> LAR::LARBoundary::convexUnsignedB
 
 	// Return the binary sparse matrix of the boundary operator
 	return boundaryFilter(FC);
+	//return FC;
 }
 
 Eigen::SparseMatrix<int, Eigen::RowMajor, int> LAR::LARBoundary::boundaryFilter(
@@ -31,10 +32,12 @@ Eigen::SparseMatrix<int, Eigen::RowMajor, int> LAR::LARBoundary::boundaryFilter(
 
 	tripletList.reserve(numberOfRows);
 	for (int k = 0; k < FC.outerSize(); ++k) {
+		int maxRowValue = LAR::LARBoundary::maxRowValue(FC, k);
 		for (Eigen::SparseMatrix<int, Eigen::RowMajor, int>::InnerIterator it(
 				FC, k); it; ++it) {
 			int value = it.value();
-			if (value == FC.innerVector(it.row()).nonZeros()) {
+
+			if (value == maxRowValue) {
 				int row = (int) it.row();
 				int col = (int) it.col();
 				tripletList.push_back(Eigen::Triplet<int, int>(row, col, 1));
@@ -45,4 +48,19 @@ Eigen::SparseMatrix<int, Eigen::RowMajor, int> LAR::LARBoundary::boundaryFilter(
 	result.setFromTriplets(tripletList.begin(), tripletList.end());
 
 	return result;
+}
+
+int LAR::LARBoundary::maxRowValue(
+		Eigen::SparseMatrix<int, Eigen::RowMajor, int> matrix, int rowIndex) {
+	Eigen::SparseMatrix<int, Eigen::RowMajor, int>::RowXpr row = matrix.row(
+			rowIndex);
+	int rowSize = matrix.innerSize();
+	int maxValue = 0;
+	for (int i = 0; i < rowSize; i++) {
+		if (row.coeff(i) > maxValue) {
+			maxValue = row.coeff(i);
+		}
+	}
+
+	return maxValue;
 }
