@@ -64,3 +64,48 @@ int LAR::LARBoundary::maxRowValue(
 
 	return maxValue;
 }
+
+Eigen::SparseMatrix<int, Eigen::RowMajor, int> LAR::LARBoundary::larBoundaryChain(
+		Eigen::SparseMatrix<int, Eigen::RowMajor, int> boundaryOperator,
+		std::deque<int> chainList) {
+
+	int chainSize = chainList.size();
+	Eigen::SparseVector<int, Eigen::RowMajor, int> chainVector(chainSize);
+
+	for (int i = 0; i < chainSize; i++) {
+		chainVector.coeffRef(chainList[i]) = 1;
+	}
+
+	//return chainVector.transpose();
+	//return boundaryOperator * chainVector.transpose();
+	return LAR::LARBoundary::csrBinFilter(boundaryOperator * chainVector.transpose());
+}
+
+Eigen::SparseMatrix<int, Eigen::RowMajor, int> LAR::LARBoundary::csrBinFilter(
+		Eigen::SparseMatrix<int, Eigen::RowMajor, int> matrix) {
+
+	std::vector<Eigen::Triplet<int, int> > tripletList;
+	int numberOfRows = matrix.rows();
+
+	Eigen::SparseMatrix<int, Eigen::RowMajor, int> result(numberOfRows,
+			matrix.cols());
+
+	tripletList.reserve(numberOfRows);
+	for (int k = 0; k < matrix.outerSize(); ++k) {
+		for (Eigen::SparseMatrix<int, Eigen::RowMajor, int>::InnerIterator it(
+				matrix, k); it; ++it) {
+			int value = it.value();
+			int row = (int) it.row();
+			int col = (int) it.col();
+			if (value % 2 == 1) {
+				tripletList.push_back(Eigen::Triplet<int, int>(row, col, 1));
+			} else if (value % 2 == -1) {
+				tripletList.push_back(Eigen::Triplet<int, int>(row, col, -1));
+			}
+		}
+	}
+
+	result.setFromTriplets(tripletList.begin(), tripletList.end());
+
+	return result;
+}
