@@ -30,3 +30,21 @@ Eigen::SparseMatrix<int, Eigen::RowMajor, int> LAR::LARcpp::brcToMatrix(
 	result.setFromTriplets(tripletList.begin(), tripletList.end());
 	return result;
 }
+
+std::deque<std::vector<int> > LAR::LARcpp::matrixToBrc(
+		Eigen::SparseMatrix<int, Eigen::RowMajor, int> matrix) {
+
+	int matrixRows = matrix.outerSize();
+
+	std::deque<std::vector<int> > result;
+
+	for (int k = 0; k < matrix.outerSize(); ++k) {
+		std::vector<int> row;
+		for (Eigen::SparseMatrix<int, Eigen::RowMajor, int>::InnerIterator it(
+				matrix, k); it; ++it) {
+			row.push_back(it.col());
+		}
+		result.push_back(row);
+	}
+	return result;
+}
