@@ -15,6 +15,7 @@
 
 // Interface for all possible I/O classes of LARcpp
 namespace LAR {
+namespace IO {
 class LARIO {
 public:
 	virtual ~LARIO() {
@@ -27,7 +28,7 @@ public:
 			Eigen::SparseMatrix<int, Eigen::RowMajor, int> topologicalRelationship,
 			std::string outputPath) = 0;
 };
-
+}
 }
 
 #endif /* INCLUDE_LARIO_H_ */
