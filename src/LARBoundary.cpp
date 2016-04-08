@@ -76,8 +76,6 @@ Eigen::SparseMatrix<int, Eigen::RowMajor, int> LAR::LARBoundary::larBoundaryChai
 		chainVector.coeffRef(chainList[i]) = 1;
 	}
 
-	//return chainVector.transpose();
-	//return boundaryOperator * chainVector.transpose();
 	return LAR::LARBoundary::csrBinFilter(boundaryOperator * chainVector.transpose());
 }
 
