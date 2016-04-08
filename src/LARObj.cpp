@@ -6,13 +6,13 @@
  *  License: MIT License https://opensource.org/licenses/MIT
  *
  */
-#include "IOInterfaces/LARObj.h"
+#include "LARObj.h"
 #include "LARcpp.h"
 #include <iostream>
 
 std::pair<std::deque<Eigen::Vector3f>,
 		std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> > > LAR::IO::LARObj::readModel(
-		std::string filePath) {
+		const std::string filePath) {
 
 	std::string line;
 	std::ifstream myfile(filePath);
@@ -46,7 +46,9 @@ std::pair<std::deque<Eigen::Vector3f>,
 
 void LAR::IO::LARObj::writeModel(std::deque<Eigen::Vector3f> verticesList,
 		Eigen::SparseMatrix<int, Eigen::RowMajor, int> topologicalRelationship,
-		std::string outputPath);
+		std::string outputPath) {
+
+}
 
 /** tokenizer function for strings **/
 std::vector<std::string> LAR::IO::LARObj::tokenize(const std::string& str,
@@ -72,4 +74,3 @@ std::vector<std::string> LAR::IO::LARObj::tokenize(const std::string& str,
 	}
 	return tokens;
 }
-

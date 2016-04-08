@@ -10,17 +10,20 @@
 #ifndef INCLUDE_IOINTERFACES_LAROBJ_H_
 #define INCLUDE_IOINTERFACES_LAROBJ_H_
 
-#include "LARIO.h"
+#include <string>
+#include <deque>
+#include "Eigen/SparseCore"
 
 namespace LAR {
 namespace IO {
 
-class LARObj: public LARIO {
+class LARObj {
 
 public:
+
 	std::pair<std::deque<Eigen::Vector3f>,
 			std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> > > readModel(
-			std::string filePath);
+			const std::string filePath);
 
 	void writeModel(std::deque<Eigen::Vector3f> verticesList,
 			Eigen::SparseMatrix<int, Eigen::RowMajor, int> topologicalRelationship,

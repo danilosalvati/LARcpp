@@ -18,8 +18,7 @@ namespace LAR {
 namespace IO {
 class LARIO {
 public:
-	virtual ~LARIO() {
-	}
+
 	virtual std::pair<std::deque<Eigen::Vector3f>,
 			std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> > > readModel(
 			std::string filePath) = 0;
