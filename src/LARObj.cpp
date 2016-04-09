@@ -9,13 +9,14 @@
 #include "LARObj.h"
 #include "LARcpp.h"
 #include <iostream>
+#include <fstream>
 
 std::pair<std::deque<Eigen::Vector3f>,
 		std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> > > LAR::IO::LARObj::readModel(
 		const std::string filePath) {
 
 	std::string line;
-	std::ifstream myfile(filePath);
+	std::ifstream myfile(filePath, std::ifstream::in);
 
 	std::deque<Eigen::Vector3f> vectorList;
 	std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> > relationships;
@@ -26,12 +27,14 @@ std::pair<std::deque<Eigen::Vector3f>,
 			tokens = tokenize(line);
 			if (tokens[0] == "v") {
 				// I am reading a vertex line
+                                std::vector<float> coordinates = {atof(tokens[1].c_str()), atof(tokens[2].c_str()), atof(tokens[3].c_str())}
 				vectorList.push_back(
-						Eigen::Vector3f(tokens[1], tokens[2], tokens[3]));
+						Eigen::Vector3f(coordinates.data());
 			} else {
 				// I am reading a face line
+                                std::vector<int> faces = {atoi(tokens[1].c_str()), atoi(tokens[2].c_str()), atoi(tokens[3].c_str())}
 				facesList.push_back(
-						vector<int>(tokens[1], tokens[2], tokens[3]));
+						std::vector<int>(faces.data()));
 			}
 			myfile.close();
 		}
