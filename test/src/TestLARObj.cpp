@@ -10,7 +10,6 @@
 #include "catch.hpp"
 #include "IOInterfaces/LARObj.h"
 #include <sys/stat.h>
-#include <iostream>
 
 TEST_CASE( "Read and write Obj files", "[LARObj]" ) {
 
@@ -25,18 +24,45 @@ TEST_CASE( "Read and write Obj files", "[LARObj]" ) {
         
         struct stat buffer;
         if (stat (filePath1.c_str(), &buffer) == 0) {
-            model = larObj.readModel(filePath1);
+            model = larObj.readModel(filePath1);       
         } else {
             model = larObj.readModel(filePath2);
         }
         
         std::deque<Eigen::Vector3f> vectorList = model.first;
-        std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> > facesList = model.second;
+        Eigen::SparseMatrix<int, Eigen::RowMajor, int> facesMatrix = model.second[0];
         
-        std::cout << vectorList[1];
+        REQUIRE(vectorList.size() == 8);
+        REQUIRE(vectorList[0] == Eigen::Vector3f(0,0,0));
+        REQUIRE(vectorList[1] == Eigen::Vector3f(1,0,0));
+        REQUIRE(vectorList[2] == Eigen::Vector3f(0,1,0));
+        REQUIRE(vectorList[3] == Eigen::Vector3f(1,1,0));
+        REQUIRE(vectorList[4] == Eigen::Vector3f(0,0,1));
+        REQUIRE(vectorList[5] == Eigen::Vector3f(1,0,1));
+        REQUIRE(vectorList[6] == Eigen::Vector3f(0,1,1));
+        REQUIRE(vectorList[7] == Eigen::Vector3f(1,1,1));
         
-        REQUIRE(vectorList.size() == 6);
-        REQUIRE(vectorList[0] == Eigen::Vector3f(0,0,1));
+        
+        REQUIRE(facesMatrix.nonZeros() == 12);
+	REQUIRE(facesMatrix.rows() == 3);
+	REQUIRE(facesMatrix.cols() == 8);
+        
+        REQUIRE(facesMatrix.coeff(0,0) == 1);
+	REQUIRE(facesMatrix.coeff(0,1) == 1);
+        REQUIRE(facesMatrix.coeff(0,2) == 1);
+	REQUIRE(facesMatrix.coeff(0,3) == 1);
+        
+        REQUIRE(facesMatrix.coeff(1,4) == 1);
+	REQUIRE(facesMatrix.coeff(1,5) == 1);
+        REQUIRE(facesMatrix.coeff(1,6) == 1);
+	REQUIRE(facesMatrix.coeff(1,7) == 1);
+        
+        REQUIRE(facesMatrix.coeff(2,0) == 1);
+	REQUIRE(facesMatrix.coeff(2,1) == 1);
+        REQUIRE(facesMatrix.coeff(2,4) == 1);
+	REQUIRE(facesMatrix.coeff(2,5) == 1);
+
+        
 }
 }
 

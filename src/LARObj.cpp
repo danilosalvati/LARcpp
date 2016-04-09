@@ -9,7 +9,7 @@
 #include "IOInterfaces/LARObj.h"
 #include "LARcpp.h"
 #include <iostream>
-#include <string>
+//#include <string>
 #include <fstream>
 
 std::pair<std::deque<Eigen::Vector3f>,
@@ -17,14 +17,14 @@ std::pair<std::deque<Eigen::Vector3f>,
 		const std::string filePath) {
 
 	std::string line;
-	std::ifstream myfile(filePath);
+	std::ifstream objFile(filePath);
 
 	std::deque<Eigen::Vector3f> vectorList;
 	std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> > relationships;
 	std::deque<std::vector<int> > facesList;
-	if (myfile.is_open()) {
+	if (objFile.is_open()) {
 		std::vector<std::string> tokens;
-		while (std::getline(myfile, line)) {
+		while (std::getline(objFile, line)) {
 			tokens = tokenize(line, " ");
 			if (tokens[0] == "v") {
 				// I am reading a vertex line
@@ -34,12 +34,15 @@ std::pair<std::deque<Eigen::Vector3f>,
 						Eigen::Vector3f(coordinates.data()));
 			} else {
 				// I am reading a face line
-                                int faceArray[] = {stoi(tokens[1]), stoi(tokens[2]), stoi(tokens[3])};
-                                std::vector<int> face(faceArray, faceArray + sizeof(faceArray) / sizeof(int));
+                                int tokensLength = tokens.size();
+                                std::vector<int> face;
+                                for(int i = 1; i< tokensLength; i++) {
+                                    face.push_back(stoi(tokens[i]) - 1);
+                                }
 				facesList.push_back(face);
 			}
-			myfile.close();
 		}
+		objFile.close();
 	} else {
 		throw "Unable to open file " + filePath;
 	}
