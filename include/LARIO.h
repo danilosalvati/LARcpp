@@ -24,7 +24,7 @@ public:
 			std::string filePath) = 0;
 
 	virtual void writeModel(std::deque<Eigen::Vector3f> verticesList,
-			Eigen::SparseMatrix<int, Eigen::RowMajor, int> topologicalRelationship,
+			std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> > topologicalRelationships,
 			std::string outputPath) = 0;
 };
 }

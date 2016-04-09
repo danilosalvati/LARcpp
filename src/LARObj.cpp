@@ -8,8 +8,6 @@
  */
 #include "IOInterfaces/LARObj.h"
 #include "LARcpp.h"
-#include <iostream>
-//#include <string>
 #include <fstream>
 
 std::pair<std::deque<Eigen::Vector3f>,
@@ -44,7 +42,7 @@ std::pair<std::deque<Eigen::Vector3f>,
 		}
 		objFile.close();
 	} else {
-		throw "Unable to open file " + filePath;
+            throw "Unable to open file " + filePath;
 	}
 
 	LAR::LARcpp larcpp;
@@ -54,8 +52,33 @@ std::pair<std::deque<Eigen::Vector3f>,
 }
 
 void LAR::IO::LARObj::writeModel(std::deque<Eigen::Vector3f> verticesList,
-		Eigen::SparseMatrix<int, Eigen::RowMajor, int> topologicalRelationship,
+		std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> >  topologicalRelationships,
 		std::string outputPath) {
+    
+    LAR::LARcpp larcpp;
+    std::deque<std::vector<int> > facesList = larcpp.matrixToBrc(topologicalRelationships[0]);
+    std::ofstream objFile(outputPath);
+    
+    if(objFile.is_open()) {
+        int numberOfVertices = verticesList.size();
+        int numberOfFaces = facesList.size();
+        
+        for(int i = 0; i < numberOfVertices; i++) {
+            objFile << "v " << verticesList[i][0] << " " << verticesList[i][1] << " " << verticesList[i][2] << "\n";
+        }
+        
+        for(int i = 0; i < numberOfFaces; i++) {
+            int numVertices = facesList[i].size();
+            objFile << "f ";
+            for(int j = 0; j < numVertices - 1; j++) {
+                objFile << facesList[i][j] << " ";
+            }
+            objFile << facesList[i][numVertices - 1] << "\n";
+        }
+        objFile.close();
+    } else {
+        throw "Unable to write file " + outputPath;
+    }
 
 }
 
