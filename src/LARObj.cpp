@@ -18,7 +18,7 @@ std::pair<std::deque<Eigen::Vector3f>,
 
 	std::string line;
 	std::ifstream myfile;
-        myfile.open(filePath);
+        myfile.open(filePath, std::ifstream::in);
 
 	std::deque<Eigen::Vector3f> vectorList;
 	std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> > relationships;
@@ -36,7 +36,7 @@ std::pair<std::deque<Eigen::Vector3f>,
 			} else {
 				// I am reading a face line
                                 int faceArray[] = {atoi(tokens[1].c_str()), atoi(tokens[2].c_str()), atoi(tokens[3].c_str())};
-                                std::vector<float> face(facesArray, facesArray + sizeof(facesArray) / sizeof(int));
+                                std::vector<int> face(faceArray, faceArray + sizeof(faceArray) / sizeof(int));
 				facesList.push_back(face);
 			}
 			myfile.close();
