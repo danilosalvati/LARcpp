@@ -16,23 +16,26 @@ std::pair<std::deque<Eigen::Vector3f>,
 		const std::string filePath) {
 
 	std::string line;
-	std::ifstream myfile(filePath, std::ifstream::in);
+	std::ifstream myfile();
+        myfile.std::open(filePath);
 
 	std::deque<Eigen::Vector3f> vectorList;
 	std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> > relationships;
 	std::deque<std::vector<int> > facesList;
-	if (myfile.is_open()) {
+	if (myfile.std::is_open()) {
 		std::vector<std::string> tokens;
-		while (getline(myfile, line)) {
+		while (std::getline(myfile, line)) {
 			tokens = tokenize(line);
 			if (tokens[0] == "v") {
 				// I am reading a vertex line
-                                std::vector<float> coordinates = {atof(tokens[1].c_str()), atof(tokens[2].c_str()), atof(tokens[3].c_str())}
+                                float coordinatesArray[] = {atof(tokens[1].c_str()), atof(tokens[2].c_str()), atof(tokens[3].c_str())};
+                                std::vector<float> coordinates(coordinatesArray, coordinatesArray + sizeof(coordinatesArray) / sizeof(float));
 				vectorList.push_back(
 						Eigen::Vector3f(coordinates.data());
 			} else {
 				// I am reading a face line
-                                std::vector<int> faces = {atoi(tokens[1].c_str()), atoi(tokens[2].c_str()), atoi(tokens[3].c_str())}
+                                std::vector<int> facesArray = {atoi(tokens[1].c_str()), atoi(tokens[2].c_str()), atoi(tokens[3].c_str())}
+                                std::vector<float> faces(facesArray, facesArray + sizeof(facesArray) / sizeof(int));
 				facesList.push_back(
 						std::vector<int>(faces.data()));
 			}

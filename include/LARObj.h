@@ -29,7 +29,8 @@ public:
 			Eigen::SparseMatrix<int, Eigen::RowMajor, int> topologicalRelationship,
 			std::string outputPath);
 private:
-	std::vector<std::string> tokenize;
+	std::vector<std::string> tokenize(const std::string& str,
+		const std::string& delimiters);
 
 };
 }
