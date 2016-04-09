@@ -9,6 +9,7 @@
 #include "LARObj.h"
 #include "LARcpp.h"
 #include <iostream>
+#include <string>
 #include <fstream>
 
 std::pair<std::deque<Eigen::Vector3f>,
@@ -17,15 +18,15 @@ std::pair<std::deque<Eigen::Vector3f>,
 
 	std::string line;
 	std::ifstream myfile();
-        myfile.std::open(filePath);
+        myfile.open(filePath);
 
 	std::deque<Eigen::Vector3f> vectorList;
 	std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> > relationships;
 	std::deque<std::vector<int> > facesList;
-	if (myfile.std::is_open()) {
+	if (myfile.is_open()) {
 		std::vector<std::string> tokens;
 		while (std::getline(myfile, line)) {
-			tokens = tokenize(line);
+			tokens = tokenize(line, " ");
 			if (tokens[0] == "v") {
 				// I am reading a vertex line
                                 float coordinatesArray[] = {atof(tokens[1].c_str()), atof(tokens[2].c_str()), atof(tokens[3].c_str())};
@@ -34,7 +35,7 @@ std::pair<std::deque<Eigen::Vector3f>,
 						Eigen::Vector3f(coordinates.data());
 			} else {
 				// I am reading a face line
-                                std::vector<int> facesArray = {atoi(tokens[1].c_str()), atoi(tokens[2].c_str()), atoi(tokens[3].c_str())}
+                                int facesArray[] = {atoi(tokens[1].c_str()), atoi(tokens[2].c_str()), atoi(tokens[3].c_str())};
                                 std::vector<float> faces(facesArray, facesArray + sizeof(facesArray) / sizeof(int));
 				facesList.push_back(
 						std::vector<int>(faces.data()));
@@ -47,7 +48,8 @@ std::pair<std::deque<Eigen::Vector3f>,
 
 	LAR::LARcpp larcpp;
 	relationships.push_back(larcpp.brcToMatrix(facesList));
-	return std::pair(vectorList, relationships);
+	return std::pair<std::deque<Eigen::Vector3f>,
+		std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> > > (vectorList, relationships);
 }
 
 void LAR::IO::LARObj::writeModel(std::deque<Eigen::Vector3f> verticesList,
