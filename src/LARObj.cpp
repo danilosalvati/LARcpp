@@ -6,7 +6,7 @@
  *  License: MIT License https://opensource.org/licenses/MIT
  *
  */
-#include "LARObj.h"
+#include "IOInterfaces/LARObj.h"
 #include "LARcpp.h"
 #include <iostream>
 #include <string>
@@ -17,8 +17,7 @@ std::pair<std::deque<Eigen::Vector3f>,
 		const std::string filePath) {
 
 	std::string line;
-	std::ifstream myfile;
-        myfile.open(filePath, std::ifstream::in);
+	std::ifstream myfile(filePath);
 
 	std::deque<Eigen::Vector3f> vectorList;
 	std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> > relationships;
@@ -29,13 +28,13 @@ std::pair<std::deque<Eigen::Vector3f>,
 			tokens = tokenize(line, " ");
 			if (tokens[0] == "v") {
 				// I am reading a vertex line
-                                float coordinatesArray[] = {atof(tokens[1].c_str()), atof(tokens[2].c_str()), atof(tokens[3].c_str())};
+                                float coordinatesArray[] = {stof(tokens[1]), stof(tokens[2]), stof(tokens[3])};
                                 std::vector<float> coordinates(coordinatesArray, coordinatesArray + sizeof(coordinatesArray) / sizeof(float));
 				vectorList.push_back(
 						Eigen::Vector3f(coordinates.data()));
 			} else {
 				// I am reading a face line
-                                int faceArray[] = {atoi(tokens[1].c_str()), atoi(tokens[2].c_str()), atoi(tokens[3].c_str())};
+                                int faceArray[] = {stoi(tokens[1]), stoi(tokens[2]), stoi(tokens[3])};
                                 std::vector<int> face(faceArray, faceArray + sizeof(faceArray) / sizeof(int));
 				facesList.push_back(face);
 			}

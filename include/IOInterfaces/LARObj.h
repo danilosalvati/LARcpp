@@ -13,11 +13,12 @@
 #include <string>
 #include <deque>
 #include "Eigen/SparseCore"
+#include "LARIO.h"
 
 namespace LAR {
 namespace IO {
 
-class LARObj {
+class LARObj : public LARIO {
 
 public:
 
