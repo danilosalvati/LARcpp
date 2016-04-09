@@ -17,7 +17,7 @@ std::pair<std::deque<Eigen::Vector3f>,
 		const std::string filePath) {
 
 	std::string line;
-	std::ifstream myfile();
+	std::ifstream myfile;
         myfile.open(filePath);
 
 	std::deque<Eigen::Vector3f> vectorList;
@@ -32,13 +32,12 @@ std::pair<std::deque<Eigen::Vector3f>,
                                 float coordinatesArray[] = {atof(tokens[1].c_str()), atof(tokens[2].c_str()), atof(tokens[3].c_str())};
                                 std::vector<float> coordinates(coordinatesArray, coordinatesArray + sizeof(coordinatesArray) / sizeof(float));
 				vectorList.push_back(
-						Eigen::Vector3f(coordinates.data());
+						Eigen::Vector3f(coordinates.data()));
 			} else {
 				// I am reading a face line
-                                int facesArray[] = {atoi(tokens[1].c_str()), atoi(tokens[2].c_str()), atoi(tokens[3].c_str())};
-                                std::vector<float> faces(facesArray, facesArray + sizeof(facesArray) / sizeof(int));
-				facesList.push_back(
-						std::vector<int>(faces.data()));
+                                int faceArray[] = {atoi(tokens[1].c_str()), atoi(tokens[2].c_str()), atoi(tokens[3].c_str())};
+                                std::vector<float> face(facesArray, facesArray + sizeof(facesArray) / sizeof(int));
+				facesList.push_back(face);
 			}
 			myfile.close();
 		}
