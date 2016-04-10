@@ -18,7 +18,7 @@
 namespace LAR {
 namespace IO {
 
-class LARObj : public LARIO {
+class LARObj: public LARIO {
 
 public:
 
@@ -31,7 +31,7 @@ public:
 			std::string outputPath);
 private:
 	std::vector<std::string> tokenize(const std::string& str,
-		const std::string& delimiters);
+			const std::string& delimiters);
 
 };
 }

@@ -26,59 +26,64 @@ std::pair<std::deque<Eigen::Vector3f>,
 			tokens = tokenize(line, " ");
 			if (tokens[0] == "v") {
 				// I am reading a vertex line
-                                float coordinatesArray[] = {stof(tokens[1]), stof(tokens[2]), stof(tokens[3])};
-                                std::vector<float> coordinates(coordinatesArray, coordinatesArray + sizeof(coordinatesArray) / sizeof(float));
-				vectorList.push_back(
-						Eigen::Vector3f(coordinates.data()));
+				float coordinatesArray[] = { stof(tokens[1]), stof(tokens[2]),
+						stof(tokens[3]) };
+				std::vector<float> coordinates(coordinatesArray,
+						coordinatesArray
+								+ sizeof(coordinatesArray) / sizeof(float));
+				vectorList.push_back(Eigen::Vector3f(coordinates.data()));
 			} else {
 				// I am reading a face line
-                                int tokensLength = tokens.size();
-                                std::vector<int> face;
-                                for(int i = 1; i< tokensLength; i++) {
-                                    face.push_back(stoi(tokens[i]) - 1);
-                                }
+				int tokensLength = tokens.size();
+				std::vector<int> face;
+				for (int i = 1; i < tokensLength; i++) {
+					face.push_back(stoi(tokens[i]) - 1);
+				}
 				facesList.push_back(face);
 			}
 		}
 		objFile.close();
 	} else {
-            throw "Unable to open file " + filePath;
+		throw "Unable to open file " + filePath;
 	}
 
 	LAR::LARcpp larcpp;
 	relationships.push_back(larcpp.brcToMatrix(facesList));
 	return std::pair<std::deque<Eigen::Vector3f>,
-		std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> > > (vectorList, relationships);
+			std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> > >(
+			vectorList, relationships);
 }
 
 void LAR::IO::LARObj::writeModel(std::deque<Eigen::Vector3f> verticesList,
-		std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> >  topologicalRelationships,
+		std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> > topologicalRelationships,
 		std::string outputPath) {
-    
-    LAR::LARcpp larcpp;
-    std::deque<std::vector<int> > facesList = larcpp.matrixToBrc(topologicalRelationships[0]);
-    std::ofstream objFile(outputPath);
-    
-    if(objFile.is_open()) {
-        int numberOfVertices = verticesList.size();
-        int numberOfFaces = facesList.size();
-        
-        for(int i = 0; i < numberOfVertices; i++) {
-            objFile << "v " << verticesList[i][0] << " " << verticesList[i][1] << " " << verticesList[i][2] << "\n";
-        }
-        
-        for(int i = 0; i < numberOfFaces; i++) {
-            int numVertices = facesList[i].size();
-            objFile << "f ";
-            for(int j = 0; j < numVertices - 1; j++) {
-                objFile << facesList[i][j] + 1 << " ";
-            }
-            objFile << facesList[i][numVertices - 1] + 1 << "\n";
-        }
-        objFile.close();
-    } else {
-        throw "Unable to write file " + outputPath;
-    }
+
+	LAR::LARcpp larcpp;
+	std::deque<std::vector<int> > facesList = larcpp.matrixToBrc(
+			topologicalRelationships[0]);
+	std::ofstream objFile(outputPath);
+
+	if (objFile.is_open()) {
+		int numberOfVertices = verticesList.size();
+		int numberOfFaces = facesList.size();
+
+		for (int i = 0; i < numberOfVertices; i++) {
+			objFile << "v " << verticesList[i][0] << " " << verticesList[i][1]
+					<< " " << verticesList[i][2] << "\n";
+		}
+
+		for (int i = 0; i < numberOfFaces; i++) {
+			int numVertices = facesList[i].size();
+			objFile << "f ";
+			for (int j = 0; j < numVertices - 1; j++) {
+				objFile << facesList[i][j] + 1 << " ";
+			}
+			objFile << facesList[i][numVertices - 1] + 1 << "\n";
+		}
+		objFile.close();
+	} else {
+		throw "Unable to write file " + outputPath;
+	}
 
 }
 
