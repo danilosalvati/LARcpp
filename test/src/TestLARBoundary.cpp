@@ -9,7 +9,6 @@
 
 #include "catch.hpp"
 #include "LARBoundary.h"
-#include <iostream>
 
 TEST_CASE( "Compute a boundary matrix", "[LARBoundary]" ) {
 

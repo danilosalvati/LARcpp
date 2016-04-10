@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.5)
 project (LARcpp)
 #set(CMAKE_BUILD_TYPE Release)
 
-#SET(CMAKE_CXX_FLAGS "-std=c++14")
+SET(CMAKE_CXX_FLAGS "-std=c++0x")
 
 # Set the default CMAKE_BUILD_TYPE if not already specified
 if( NOT CMAKE_BUILD_TYPE )
