@@ -71,9 +71,9 @@ void LAR::IO::LARObj::writeModel(std::deque<Eigen::Vector3f> verticesList,
             int numVertices = facesList[i].size();
             objFile << "f ";
             for(int j = 0; j < numVertices - 1; j++) {
-                objFile << facesList[i][j] << " ";
+                objFile << facesList[i][j] + 1 << " ";
             }
-            objFile << facesList[i][numVertices - 1] << "\n";
+            objFile << facesList[i][numVertices - 1] + 1 << "\n";
         }
         objFile.close();
     } else {
