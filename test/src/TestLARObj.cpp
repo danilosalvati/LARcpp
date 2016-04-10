@@ -42,7 +42,6 @@ TEST_CASE( "Read and write Obj files", "[LARObj]" ) {
         REQUIRE(vectorList[6] == Eigen::Vector3f(0,1,1));
         REQUIRE(vectorList[7] == Eigen::Vector3f(1,1,1));
         
-        
         REQUIRE(facesMatrix.nonZeros() == 12);
 	REQUIRE(facesMatrix.rows() == 3);
 	REQUIRE(facesMatrix.cols() == 8);
@@ -61,8 +60,42 @@ TEST_CASE( "Read and write Obj files", "[LARObj]" ) {
 	REQUIRE(facesMatrix.coeff(2,1) == 1);
         REQUIRE(facesMatrix.coeff(2,4) == 1);
 	REQUIRE(facesMatrix.coeff(2,5) == 1);
-
         
 }
+    SECTION( "Write obj file" ){
+        
+    Eigen::Vector3f vector1 = Eigen::Vector3f(0,0,0);
+    Eigen::Vector3f vector2 = Eigen::Vector3f(0,1,0);
+    Eigen::Vector3f vector3 = Eigen::Vector3f(1,1,0);
+    Eigen::Vector3f vector4 = Eigen::Vector3f(1,0,0);
+    Eigen::Vector3f vector5 = Eigen::Vector3f(2,0,0);
+    Eigen::Vector3f vector6 = Eigen::Vector3f(2,1,0);
+    
+    Eigen::Vector3f vectors[] = {vector1, vector2, vector3, vector4, vector5, vector6};
+
+        
+    std::deque<Eigen::Vector3f> verticesList(vectors,
+			vectors + sizeof(vectors) / sizeof(Eigen::Vector3f));
+    
+        
+    Eigen::SparseMatrix<int, Eigen::RowMajor, int> matrix(2,6);
+
+    matrix.coeffRef(0,0) = 1;
+    matrix.coeffRef(0,1) = 1;
+    matrix.coeffRef(0,2) = 1;
+    matrix.coeffRef(0,3) = 1;
+
+    matrix.coeffRef(1,2) == 1;
+    matrix.coeffRef(1,3) == 1;
+    matrix.coeffRef(1,4) == 1;
+    matrix.coeffRef(1,5) == 1;
+    
+    std::deque<Eigen::SparseMatrix<int, Eigen::RowMajor, int> >  topologicalRelationships;
+    topologicalRelationships.push_back(matrix);
+    
+    larObj.writeModel(verticesList, topologicalRelationships, "prova.obj");
+
+        
+    }
 }
 
