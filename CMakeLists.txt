@@ -28,7 +28,7 @@ add_library(LARcpp SHARED ${SOURCES})
 install(TARGETS LARcpp DESTINATION /usr/local/lib)
 
 #Install headers
-install(DIRECTORY include/ DESTINATION /usr/local/include)
+install(DIRECTORY include/ DESTINATION /usr/local/include/LARcpp)
     
 #############
 ## TESTS
