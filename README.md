@@ -14,7 +14,7 @@ To import this project into eclipse open a cmd prompt into the project directory
     
 Then open Eclipse and import the project as a makefile project
 
-### Compilation and installation
+### Compilation and installation (Linux)
 
 Open a cmd prompt into the project directory and type:
     
@@ -27,3 +27,21 @@ Open a cmd prompt into the project directory and type:
 The library will be installed in /usr/local/lib/libLARcpp.so
 
 The header files will be installed under /usr/local/include
+
+### Compilation and installation (MacOsX)
+
+Open a cmd prompt into the project directory and type:
+    
+    mkdir build
+    cd build
+    
+Now open the cmake-gui and select the source code directory (is the project directory) and the build directory (which is the one created above). Press configure and then generate.
+At this point using the previous cmd prompt inside the build directory type:
+
+    xcodebuild      -project LARcpp.xcodeproj -target ALL_BUILD  -configuration Release
+    sudo xcodebuild -project LARcpp.xcodeproj -target install    -configuration Release
+    
+The library will be installed in /usr/local/lib/libLARcpp.so
+
+The header files will be installed under /usr/local/include
+
