@@ -25,10 +25,10 @@ add_library(LARcpp SHARED ${SOURCES})
 
 #Set the location for library installation -- i.e., /usr/local/lib in this case
 # not really necessary in this example. Use "sudo make install" to apply
-install(TARGETS LARcpp DESTINATION /usr/local/lib)
+install(TARGETS LARcpp DESTINATION /usr/lib)
 
 #Install headers
-install(DIRECTORY include/ DESTINATION /usr/local/include/LARcpp)
+install(DIRECTORY include/ DESTINATION /usr/include/LARcpp)
     
 #############
 ## TESTS
