@@ -24,9 +24,9 @@ Open a cmd prompt into the project directory and type:
     make
     sudo make install
     
-The library will be installed in /usr/local/lib/libLARcpp.so
+The library will be installed in /usr/lib/libLARcpp.so
 
-The header files will be installed under /usr/local/include
+The header files will be installed under /usr/include
 
 ### Compilation and installation (MacOsX)
 
@@ -41,7 +41,7 @@ At this point using the previous cmd prompt inside the build directory type:
     xcodebuild      -project LARcpp.xcodeproj -target ALL_BUILD  -configuration Release
     sudo xcodebuild -project LARcpp.xcodeproj -target install    -configuration Release
     
-The library will be installed in /usr/local/lib/libLARcpp.so
+The library will be installed in /usr/lib/libLARcpp.so
 
-The header files will be installed under /usr/local/include
+The header files will be installed under /usr/include
 
