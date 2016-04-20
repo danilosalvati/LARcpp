@@ -13,7 +13,7 @@
 #include <string>
 #include <deque>
 #include "Eigen/SparseCore"
-#include "LARIO.h"
+#include "../LARIO.h"
 
 namespace LAR {
 namespace IO {
