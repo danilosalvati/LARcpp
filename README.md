@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/sadan91/LARcpp.svg?branch=master)](https://travis-ci.org/sadan91/LARcpp)
+[![Build Status](https://travis-ci.org/danilosalvati/LARcpp.svg?branch=master)](https://travis-ci.org/danilosalvati/LARcpp)
 
 # LARcpp
 ## A C++ porting of the LAR library
